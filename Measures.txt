@@ -1,0 +1,25 @@
+TotalDays = 
+VAR StartDate = stockouts[start_date]
+VAR EndDate = 
+	IF
+	(
+	ISBLANK(stockouts[end_date]), 
+	TODAY(), 
+	stockouts[end_date]) 
+RETURN 
+	DATEDIFF(
+	StartDate, 
+	EndDate, 
+	DAY)
+
+
+DateTable = ADDCOLUMNS(
+	CALENDAR(DATE(2020,1,1), DATE(2030,12,31)),
+	"Year", YEAR([Date]), 
+	"Month", MONTH([Date]), 
+	"MonthName", FORMAT([Date], "MMMM"), 
+	"Quarter", "Q" & QUARTER([Date]), 
+	"Day", DAY([Date]), 
+	"DayOfWeek", WEEKDAY([Date]), "DayName", FORMAT([Date], "dddd"), 
+	"WeekNum", WEEKNUM([Date]), "YearMonth", FORMAT([Date], "YYYY-MM"), 
+	"IsWeekend", If(WEEKDAY([Date]) IN {1,7}, TRUE(), FALSE())
